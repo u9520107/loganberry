@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js test",
+    "coverage": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js coverage"
   },
   "repository": {
     "type": "git",

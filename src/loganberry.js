@@ -1,100 +1,107 @@
-import chalk from 'chalk';
+import Enum, { getKey, hasValue } from './lib/enum';
+import SymbolMap from './lib/symbol-map';
+import logLevel from './enum/log-level';
+import consoleWriter from './lib/console-writer';
 
-const PREFIX = Symbol();
+const symbols = new SymbolMap([
+  'prefix',
+  'level',
+]);
 
-const logLevels = {
-  none: 0,
-  trace: 1,
-  debug: 2,
-  info: 3,
-  warning: 4,
-  error: 5,
-  fatal: 6,
+const enums = new Enum({
+  logLevel,
+});
+
+const globalSettings = {
+  writers: new Set([consoleWriter]),
+  level: logLevel.all,
 };
-Object.freeze(logLevels);
 
-
-let LOG_LEVEL = logLevels.info;
-const CUSTOM_LOGGERS = new Set();
-
-
-export default class LoganBerry {
-  constructor(prefix = '') {
-    this[PREFIX] = prefix;
+export default class Loganberry {
+  constructor(options = {}) {
+    const {
+      prefix = null,
+      level = logLevel.all,
+    } = options;
+    this[symbols.prefix] = prefix;
+    this[symbols.level] = level;
   }
+  static get enums() {
+    return enums;
+  }
+  get enums() {
+    return enums;
+  }
+
+  static get level() {
+    return globalSettings.level;
+  }
+  static set level(value) {
+    if (logLevel::hasValue(value)) {
+      globalSettings.level = value;
+    }
+  }
+
+  static get writers() {
+    return [...globalSettings.writers];
+  }
+  static addWriter(writer) {
+    globalSettings.writers.add(writer);
+  }
+  static removeWriter(writer) {
+    globalSettings.writers.delete(writer);
+  }
+
+  get level() {
+    return this[symbols.level];
+  }
+  set level(value) {
+    if (logLevel::hasValue(value)) {
+      this[symbols.level] = value;
+    }
+  }
+
   get prefix() {
-    return this[PREFIX];
+    return this[symbols.prefix];
   }
 
-  static get logLevel() {
-    return LOG_LEVEL;
-  }
-  get logLevel() {
-    return LOG_LEVEL;
-  }
-  static set logLevel(value) {
-    if (typeof value === 'number') {
-      LOG_LEVEL = value;
-    }
-  }
-  set logLevel(value) {
-    if (!isNaN(value)) {
-      LOG_LEVEL = value;
-    }
+  log(msg, level) {
+    if (isNaN(level) || level < Math.max(this[symbols.level], globalSettings.level)) return;
+    const timestamp = Date.now();
+    globalSettings.writers.forEach(writer => {
+      try {
+        writer({
+          prefix: this[symbols.prefix],
+          msg,
+          level: logLevel::getKey(level),
+          timestamp,
+        });
+      } catch (e) { /* falls through ? */ }
+    });
   }
 
+  trace(msg) {
+    this.log(msg, logLevel.trace);
+  }
 
-  static log(msg, data = null, level = logLevels.info, prefix = '') {
-    if (!msg) return;
-    if (LOG_LEVEL < level) return;
+  debug(msg) {
+    this.log(msg, logLevel.debug);
+  }
 
-    const entry = {
-      prefix,
-      level,
-      msg,
-    };
-    if (data) {
-      entry.data = data;
-    }
+  info(msg) {
+    this.log(msg, logLevel.info);
   }
-  log(msg, data, level) {
-    LoganBerry.log(msg, data, level, this.prefix);
+
+  warning(msg) {
+    this.log(msg, logLevel.warning);
   }
-  static trace(msg, data, prefix) {
-    this.log(msg, data, logLevels.trace, prefix);
+
+  error(msg) {
+    this.log(msg, logLevel.error);
   }
-  trace(msg, data) {
-    LoganBerry.log(msg, data, logLevels.trace, this.prefix);
+
+  fatal(msg) {
+    this.log(msg, logLevel.fatal);
   }
-  static debug(msg, data, prefix) {
-    this.log(msg, data, logLevels.debug, prefix);
-  }
-  debug(msg, data) {
-    LoganBerry.log(msg, data, logLevels.debug, this.prefix);
-  }
-  static info(msg, data, prefix) {
-    this.log(msg, data, logLevels.info, prefix);
-  }
-  info(msg, data) {
-    LoganBerry.log(msg, data, logLevels.info, this.prefix);
-  }
-  static warning(msg, data, prefix) {
-    this.log(msg, data, logLevels.warning, prefix);
-  }
-  warning(msg, data) {
-    LoganBerry.log(msg, data, logLevels.warning, this.prefix);
-  }
-  static error(msg, data, prefix) {
-    this.log(msg, data, logLevels.error, prefix);
-  }
-  error(msg, data) {
-    LoganBerry.log(msg, data, logLevels.error, this.prefix);
-  }
-  static fatal(msg, data, prefix) {
-    this.log(msg, data, logLevels.fatal, prefix);
-  }
-  fatal(msg, data) {
-    LoganBerry.log(msg, data, logLevels.fatal, this.prefix);
-  }
+
 }
-
