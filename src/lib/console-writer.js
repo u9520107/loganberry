@@ -10,6 +10,7 @@ const levelTags = {
 };
 
 export default function consoleWriter(entry) {
+  /* istanbul ignore else */
   if (typeof console !== 'undefined' && typeof console.log === 'function') {
     console.log(
       `${(

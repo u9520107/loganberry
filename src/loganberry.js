@@ -16,7 +16,6 @@ const globalSettings = {
   writers: new Set([consoleWriter]),
   level: logLevel.all,
 };
-
 export default class Loganberry {
   constructor(options = {}) {
     const {

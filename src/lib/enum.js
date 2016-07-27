@@ -16,6 +16,7 @@ export default class Enum {
     this[VALUEMAP] = new Map();
 
     for (const key in definition) {
+      /* istanbul ignore else */
       if (hasOwnProperty.call(definition, key)) {
         Object.defineProperty(this, key, {
           get() {
@@ -26,6 +27,7 @@ export default class Enum {
         this[VALUEMAP].set(this[DEFINITION][key], key);
       }
     }
+    Object.freeze(this);
   }
 }
 /**
