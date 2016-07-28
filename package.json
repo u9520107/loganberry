@@ -1,8 +1,8 @@
 {
   "name": "loganberry",
-  "version": "0.1.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.9.0",
+  "description": "Simple logger",
+  "main": "build/loganberry.js",
   "scripts": {
     "test": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js test",
     "coverage": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js coverage",
