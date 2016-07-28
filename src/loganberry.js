@@ -68,14 +68,12 @@ export default class Loganberry {
     if (isNaN(level) || level < Math.max(this[symbols.level], globalSettings.level)) return;
     const timestamp = Date.now();
     globalSettings.writers.forEach(writer => {
-      try {
-        writer({
-          prefix: this[symbols.prefix],
-          msg,
-          level: logLevel::getKey(level),
-          timestamp,
-        });
-      } catch (e) { /* falls through ? */ }
+      writer({
+        prefix: this[symbols.prefix],
+        msg,
+        level: logLevel::getKey(level),
+        timestamp,
+      });
     });
   }
 
