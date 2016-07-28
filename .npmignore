@@ -4,3 +4,10 @@ src
 test
 gulpfile.js
 webpack.config.js
+.vscode
+.babelrc
+.editorconfig
+.eslintignore
+.eslintrc
+.gitignore
+.travis.yml
