@@ -4,8 +4,7 @@
   "description": "Simple logger",
   "main": "build/loganberry.js",
   "scripts": {
-    "test": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js test",
-    "coverage": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js coverage",
+    "test": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js coverage",
     "build": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js build"
   },
   "repository": {
