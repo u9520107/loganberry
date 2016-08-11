@@ -49,6 +49,6 @@
   "dependencies": {
     "babel-runtime": "^6.9.2",
     "chalk": "^1.1.3",
-    "data-types": "git+ssh://git@github.com/u9520107/data-types.git#release"
+    "data-types": "git+https://github.com/u9520107/data-types.git#release"
   }
 }
