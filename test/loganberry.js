@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import Loganberry from '../src/loganberry';
-import { getKey } from '../src/lib/enum';
+import { getKey } from 'data-types/key-value-map';
 import logLevel from '../src/enum/log-level';
 
 import consoleWriter from '../src/lib/console-writer';

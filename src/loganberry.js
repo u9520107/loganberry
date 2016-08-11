@@ -1,5 +1,5 @@
-import Enum, { getKey, hasValue } from './lib/enum';
-import SymbolMap from './lib/symbol-map';
+import KeyValueMap, { getKey, hasValue } from 'data-types/key-value-map';
+import SymbolMap from 'data-types/symbol-map';
 import logLevel from './enum/log-level';
 import consoleWriter from './lib/console-writer';
 
@@ -8,7 +8,7 @@ const symbols = new SymbolMap([
   'level',
 ]);
 
-const enums = new Enum({
+const enums = new KeyValueMap({
   logLevel,
 });
 

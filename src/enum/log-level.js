@@ -1,4 +1,4 @@
-import Enum from '../lib/enum';
+import KeyValueMap from 'data-types/key-value-map';
 
 const definition = {
   all: 0,
@@ -11,4 +11,4 @@ const definition = {
   none: 7,
 };
 
-export default new Enum(definition);
+export default new KeyValueMap(definition);
